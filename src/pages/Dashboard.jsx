@@ -1,12 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import DashboardHeader from "@/components/DashboardHeader";
 import SummaryCards from "@/components/SummaryCards";
 import JobFilters from "@/components/JobFilters";
 import JobsTable from "@/components/JobsTable";
-import JobDetailPanel from "@/components/JobDetailPanel";
-import useJobs from "@/hooks/useJobs";
+import { useJobsContext } from "@/context";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const {
     jobs,
     filteredJobs,
@@ -16,11 +17,12 @@ function Dashboard() {
     setStatus,
     sortBy,
     setSortBy,
-    selectedJob,
-    setSelectedJob,
     handleClearFilters,
-    handleUpdateStatus,
-  } = useJobs();
+  } = useJobsContext();
+
+  const handleRowClick = (job) => {
+    navigate(`/jobs/${job.id}`);
+  };
 
   return (
     <DashboardLayout>
@@ -39,24 +41,11 @@ function Dashboard() {
           onClearFilters={handleClearFilters}
         />
 
-        <div className="flex flex-col gap-6 lg:flex-row items-start">
-          <div className="flex-1 w-full min-w-0">
-            <JobsTable
-              jobs={filteredJobs}
-              onRowClick={setSelectedJob}
-              selectedJobId={selectedJob?.id}
-            />
-          </div>
-
-          {selectedJob && (
-            <div className="w-full lg:w-80 shrink-0">
-              <JobDetailPanel
-                job={selectedJob}
-                onClose={() => setSelectedJob(null)}
-                onUpdateStatus={handleUpdateStatus}
-              />
-            </div>
-          )}
+        <div className="w-full">
+          <JobsTable
+            jobs={filteredJobs}
+            onRowClick={handleRowClick}
+          />
         </div>
       </div>
     </DashboardLayout>
@@ -65,3 +54,4 @@ function Dashboard() {
 
 export { Dashboard };
 export default Dashboard;
+

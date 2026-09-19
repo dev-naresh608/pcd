@@ -10,9 +10,10 @@ const COLUMNS = [
   { key: "dueDate", label: "Due Date" },
   { key: "status", label: "Status" },
   { key: "machine", label: "Machine" },
+  { key: "action", label: "" },
 ];
 
-function JobsTable({ jobs = mockData, onRowClick, selectedJobId }) {
+function JobsTable({ jobs = mockData, onRowClick }) {
   if (jobs.length === 0) {
     return (
       <div className="rounded-xl border border-slate-200 bg-white p-12 text-center shadow-xs">
@@ -34,7 +35,7 @@ function JobsTable({ jobs = mockData, onRowClick, selectedJobId }) {
         <div>
           <h2 className="text-sm font-semibold text-slate-900">Production Orders</h2>
           <p className="text-xs text-slate-500">
-            Click on any row to view full details and update status
+            Click on any order to view full job details page and update workflow
           </p>
         </div>
         <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
@@ -50,7 +51,9 @@ function JobsTable({ jobs = mockData, onRowClick, selectedJobId }) {
               {COLUMNS.map((col) => (
                 <th
                   key={col.key}
-                  className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 whitespace-nowrap"
+                  className={`px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 whitespace-nowrap ${
+                    col.key === "action" ? "text-right" : ""
+                  }`}
                 >
                   {col.label}
                 </th>
@@ -63,7 +66,6 @@ function JobsTable({ jobs = mockData, onRowClick, selectedJobId }) {
                 key={job.id}
                 job={job}
                 onRowClick={onRowClick}
-                isSelected={job.id === selectedJobId}
               />
             ))}
           </tbody>
