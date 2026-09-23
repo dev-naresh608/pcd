@@ -5,3 +5,4 @@ export { default as JobRow } from "./JobRow";
 export { default as JobsTable } from "./JobsTable";
 export { default as StatusBadge } from "./StatusBadge";
 export { default as SummaryCards } from "./SummaryCards";
+export { default as CreateJobModal } from "./CreateJobModal";

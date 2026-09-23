@@ -36,8 +36,9 @@ function getStageIndex(status) {
     case "Completed":
       return 5;
     case "In Progress":
-    case "Delayed":
       return 3;
+    case "Delayed":
+      return 2;
     case "Pending":
     default:
       return 1;
@@ -75,16 +76,16 @@ export function JobDetailPage() {
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 border border-amber-200 shadow-xs">
             <AlertTriangle className="h-8 w-8" />
           </div>
-          <h1 className="mt-4 text-2xl font-bold tracking-tight text-slate-900">
-            Job Order Not Found
+          <h1 className="mt-4 text-2xl font-bold tracking-tight text-zinc-900">
+            Job Not Found
           </h1>
-          <p className="mt-2 text-sm text-slate-600">
-            The job with identifier <span className="font-semibold text-slate-800 font-mono">"{id}"</span> does not exist or may have been deleted.
+          <p className="mt-2 text-sm text-zinc-600">
+            The job with identifier <span className="font-semibold text-zinc-800 font-mono">"{id}"</span> does not exist or may have been deleted.
           </p>
           <div className="mt-8 flex justify-center gap-3">
             <Link
               to="/dashboard"
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-xs hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-orange-500 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Back to Dashboard</span>
@@ -118,18 +119,18 @@ export function JobDetailPage() {
       <div className="space-y-6 pb-12">
         {/* Top Navigation & Breadcrumbs Bar */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+          <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-500">
             <Link
               to="/dashboard"
-              className="font-medium text-slate-600 hover:text-blue-600 transition-colors"
+              className="font-medium text-zinc-600 hover:text-orange-600 transition-colors"
             >
               Dashboard
             </Link>
 
-            <ChevronRight className="h-4 w-4 text-slate-400" />
-            <span className="text-slate-500">Production Orders</span>
-            <ChevronRight className="h-4 w-4 text-slate-400" />
-            <span className="font-semibold text-slate-900 font-mono">{job.id}</span>
+            <ChevronRight className="h-4 w-4 text-zinc-400" />
+            <span className="text-zinc-500">Jobs</span>
+            <ChevronRight className="h-4 w-4 text-zinc-400" />
+            <span className="font-bold text-zinc-900 font-mono">{job.id}</span>
           </div>
 
           {/* Action buttons */}
@@ -137,7 +138,7 @@ export function JobDetailPage() {
             <Link
               to="/dashboard"
               id="back-to-dashboard-btn"
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 shadow-xs hover:bg-slate-50 hover:text-slate-900 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3.5 py-2 text-xs sm:text-sm font-semibold text-zinc-700 shadow-2xs hover:bg-zinc-50 hover:text-zinc-900 transition-all cursor-pointer"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Back to Dashboard</span>
@@ -146,34 +147,35 @@ export function JobDetailPage() {
         </div>
 
         {/* Hero Header Card */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-          <div className="space-y-1.5">
+        <div className="rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-xs">
+          <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center rounded-md bg-blue-50 px-2.5 py-1 text-xs font-bold font-mono text-blue-700 ring-1 ring-inset ring-blue-700/20">
+              <span className="inline-flex items-center rounded-md bg-orange-50 px-2.5 py-1 text-xs font-bold font-mono text-orange-700 ring-1 ring-inset ring-orange-600/20">
                 {job.id}
               </span>
               <StatusBadge status={job.status} />
-              <span className="inline-flex items-center gap-1 text-xs text-slate-500">
-                <Clock className="h-3.5 w-3.5 text-slate-400" />
-                Due: <strong className="text-slate-700 font-medium">{job.dueDate}</strong>
+              <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500 font-mono">
+                <Clock className="h-3.5 w-3.5 text-orange-500" />
+                Due: <strong className="text-zinc-700 font-semibold">{job.dueDate}</strong>
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900">
               {job.product}
             </h1>
-            <p className="text-sm text-slate-500">
-              Ordered by <span className="font-semibold text-slate-800">{job.customer}</span> &bull; Production assigned to <span className="font-semibold text-slate-800">{job.machine || "Unassigned"}</span>
+            <p className="text-sm text-zinc-500">
+              Ordered by <span className="font-semibold text-zinc-800">{job.customer}</span> &bull; Production assigned to <span className="font-semibold text-zinc-800">{job.machine || "Unassigned"}</span>
             </p>
           </div>
 
           {/* Production Lifecycle Tracker */}
-          <div className="mt-8 border-t border-slate-100 pt-6">
+          <div className="mt-8 border-t border-zinc-100 pt-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">
                   Production Lifecycle Tracker
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-zinc-400 mt-0.5">
                   Real-time manufacturing stage of this order
                 </p>
               </div>
@@ -183,8 +185,8 @@ export function JobDetailPage() {
                   job.status === "Completed"
                     ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                     : job.status === "Delayed"
-                    ? "bg-amber-50 text-amber-800 border border-amber-200"
-                    : "bg-blue-50 text-blue-700 border border-blue-200"
+                    ? "bg-rose-50 text-rose-700 border border-rose-200"
+                    : "bg-orange-50 text-orange-700 border border-orange-200"
                 }`}
               >
                 <span
@@ -192,8 +194,8 @@ export function JobDetailPage() {
                     job.status === "Completed"
                       ? "bg-emerald-500"
                       : job.status === "Delayed"
-                      ? "bg-amber-500"
-                      : "bg-blue-500 animate-pulse"
+                      ? "bg-rose-500"
+                      : "bg-orange-500 animate-pulse"
                   }`}
                 />
                 Stage {currentStage} of 5 &bull; {job.status}
@@ -217,7 +219,7 @@ export function JobDetailPage() {
                       {index < LIFECYCLE_STEPS.length - 1 && (
                         <div
                           className={`hidden md:block absolute top-4 left-1/2 w-full h-0.5 -z-0 transition-colors ${
-                            step.step < currentStage ? "bg-emerald-500" : "bg-slate-200"
+                            step.step < currentStage ? "bg-orange-500" : "bg-zinc-200"
                           }`}
                         />
                       )}
@@ -228,10 +230,10 @@ export function JobDetailPage() {
                           isCompleted
                             ? "bg-emerald-600 text-white shadow-xs"
                             : isDelayed
-                            ? "bg-amber-500 text-white ring-4 ring-amber-100 shadow-xs"
+                            ? "bg-rose-500 text-white ring-4 ring-rose-100 shadow-xs"
                             : isCurrent
-                            ? "bg-blue-600 text-white ring-4 ring-blue-100 shadow-xs"
-                            : "border-2 border-slate-200 bg-white text-slate-400"
+                            ? "bg-orange-600 text-white ring-4 ring-orange-100 shadow-xs"
+                            : "border-2 border-zinc-200 bg-white text-zinc-400"
                         }`}
                       >
                         {isCompleted ? (
@@ -248,17 +250,17 @@ export function JobDetailPage() {
                         <p
                           className={`text-xs font-semibold ${
                             isDelayed
-                              ? "text-amber-800 font-bold"
+                              ? "text-rose-700 font-bold"
                               : isCurrent
-                              ? "text-blue-700 font-bold"
+                              ? "text-orange-700 font-bold"
                               : isCompleted
-                              ? "text-slate-900"
-                              : "text-slate-400"
+                              ? "text-zinc-900"
+                              : "text-zinc-400"
                           }`}
                         >
                           {step.title}
                         </p>
-                        <p className="text-[11px] text-slate-500 mt-0.5 hidden sm:block">
+                        <p className="text-[11px] text-zinc-500 mt-0.5 hidden sm:block">
                           {step.desc}
                         </p>
                       </div>
@@ -270,59 +272,58 @@ export function JobDetailPage() {
           </div>
         </div>
 
-
         {/* 4 Metric Summary Cards */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
+          <div className="rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-xs">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-500">Customer Account</span>
-              <div className="rounded-lg bg-blue-50 p-2 text-blue-600">
+              <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Customer</span>
+              <div className="rounded-xl bg-orange-50 p-2 text-orange-600">
                 <Building2 className="h-4 w-4" />
               </div>
             </div>
-            <h3 className="mt-2 text-lg font-bold text-slate-900 truncate">
+            <h3 className="mt-2 text-lg font-bold text-zinc-900 truncate">
               {job.customer}
             </h3>
-            <p className="mt-1 text-xs text-slate-500">Verified Client &bull; Regular Order</p>
+            <p className="mt-1 text-xs text-zinc-500">Verified Client &bull; Regular Account</p>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
+          <div className="rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-xs">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-500">Total Quantity</span>
-              <div className="rounded-lg bg-indigo-50 p-2 text-indigo-600">
+              <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Order Quantity</span>
+              <div className="rounded-xl bg-zinc-100 p-2 text-zinc-600">
                 <Package className="h-4 w-4" />
               </div>
             </div>
-            <h3 className="mt-2 text-lg font-bold text-slate-900 font-mono">
-              {Number(job.quantity).toLocaleString()} <span className="text-xs font-normal text-slate-500">units</span>
+            <h3 className="mt-2 text-lg font-bold text-zinc-900 font-mono">
+              {Number(job.quantity).toLocaleString()} <span className="text-xs font-normal text-zinc-500">pcs</span>
             </h3>
-            <p className="mt-1 text-xs text-slate-500">Standard batch production</p>
+            <p className="mt-1 text-xs text-zinc-500">Scheduled batch volume</p>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
+          <div className="rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-xs">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-500">Target Due Date</span>
-              <div className="rounded-lg bg-amber-50 p-2 text-amber-600">
+              <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Target Due Date</span>
+              <div className="rounded-xl bg-amber-50 p-2 text-amber-600">
                 <Calendar className="h-4 w-4" />
               </div>
             </div>
-            <h3 className="mt-2 text-lg font-bold text-slate-900">
+            <h3 className="mt-2 text-lg font-bold text-zinc-900 font-mono">
               {job.dueDate}
             </h3>
-            <p className="mt-1 text-xs text-slate-500">Dispatch deadline</p>
+            <p className="mt-1 text-xs text-zinc-500">Floor dispatch deadline</p>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-xs">
+          <div className="rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-xs">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-500">Workstation / Machine</span>
-              <div className="rounded-lg bg-emerald-50 p-2 text-emerald-600">
+              <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Workstation</span>
+              <div className="rounded-xl bg-orange-50 p-2 text-orange-600">
                 <Cpu className="h-4 w-4" />
               </div>
             </div>
-            <h3 className="mt-2 text-lg font-bold text-slate-900">
+            <h3 className="mt-2 text-lg font-bold text-zinc-900 font-mono">
               {job.machine || "Unassigned"}
             </h3>
-            <p className="mt-1 text-xs text-slate-500">Shopfloor Station</p>
+            <p className="mt-1 text-xs text-zinc-500">Shopfloor Assignment</p>
           </div>
         </div>
 
@@ -331,74 +332,74 @@ export function JobDetailPage() {
           {/* Left Column (2 spans) */}
           <div className="lg:col-span-2 space-y-6">
             {/* Technical Specifications */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div className="rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-xs">
+              <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="rounded-lg bg-slate-100 p-2 text-slate-700">
+                  <div className="rounded-xl bg-zinc-100 p-2 text-zinc-700">
                     <Layers className="h-5 w-5" />
                   </div>
                   <div>
-                    <h2 className="text-base font-semibold text-slate-900">
-                      Technical & Order Specifications
+                    <h2 className="text-base font-bold text-zinc-900">
+                      Job Specifications
                     </h2>
-                    <p className="text-xs text-slate-500">
-                      Production engineering details and manufacturing requirements
+                    <p className="text-xs text-zinc-500">
+                      Details and manufacturing parameters
                     </p>
                   </div>
                 </div>
               </div>
 
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-sm">
-                <div className="rounded-xl bg-slate-50/70 p-3.5 border border-slate-100">
-                  <span className="text-xs font-medium text-slate-500 block">Job Identification</span>
-                  <span className="text-sm font-bold text-blue-600 font-mono mt-0.5 block">{job.id}</span>
+                <div className="rounded-xl bg-zinc-50/70 p-3.5 border border-zinc-200/80">
+                  <span className="text-xs font-semibold text-zinc-500 block">Job Identification</span>
+                  <span className="text-sm font-bold text-orange-600 font-mono mt-0.5 block">{job.id}</span>
                 </div>
 
-                <div className="rounded-xl bg-slate-50/70 p-3.5 border border-slate-100">
-                  <span className="text-xs font-medium text-slate-500 block">Product Component</span>
-                  <span className="text-sm font-bold text-slate-900 mt-0.5 block">{job.product}</span>
+                <div className="rounded-xl bg-zinc-50/70 p-3.5 border border-zinc-200/80">
+                  <span className="text-xs font-semibold text-zinc-500 block">Product Component</span>
+                  <span className="text-sm font-bold text-zinc-900 mt-0.5 block">{job.product}</span>
                 </div>
 
-                <div className="rounded-xl bg-slate-50/70 p-3.5 border border-slate-100">
-                  <span className="text-xs font-medium text-slate-500 block">Client Entity</span>
-                  <span className="text-sm font-semibold text-slate-800 mt-0.5 block">{job.customer}</span>
+                <div className="rounded-xl bg-zinc-50/70 p-3.5 border border-zinc-200/80">
+                  <span className="text-xs font-semibold text-zinc-500 block">Customer</span>
+                  <span className="text-sm font-semibold text-zinc-800 mt-0.5 block">{job.customer}</span>
                 </div>
 
-                <div className="rounded-xl bg-slate-50/70 p-3.5 border border-slate-100">
-                  <span className="text-xs font-medium text-slate-500 block">Assigned Work Center</span>
-                  <span className="text-sm font-semibold text-slate-800 mt-0.5 block">{job.machine || "Pending Assignment"}</span>
+                <div className="rounded-xl bg-zinc-50/70 p-3.5 border border-zinc-200/80">
+                  <span className="text-xs font-semibold text-zinc-500 block">Assigned Machine</span>
+                  <span className="text-sm font-semibold text-zinc-800 font-mono mt-0.5 block">{job.machine || "Pending Assignment"}</span>
                 </div>
 
-                <div className="rounded-xl bg-slate-50/70 p-3.5 border border-slate-100">
-                  <span className="text-xs font-medium text-slate-500 block">Order Volume</span>
-                  <span className="text-sm font-semibold text-slate-800 font-mono mt-0.5 block">
+                <div className="rounded-xl bg-zinc-50/70 p-3.5 border border-zinc-200/80">
+                  <span className="text-xs font-semibold text-zinc-500 block">Order Quantity</span>
+                  <span className="text-sm font-bold text-zinc-900 font-mono mt-0.5 block">
                     {Number(job.quantity).toLocaleString()} Units
                   </span>
                 </div>
 
-                <div className="rounded-xl bg-slate-50/70 p-3.5 border border-slate-100">
-                  <span className="text-xs font-medium text-slate-500 block">Inspection Standard</span>
+                <div className="rounded-xl bg-zinc-50/70 p-3.5 border border-zinc-200/80">
+                  <span className="text-xs font-semibold text-zinc-500 block">Quality Standard</span>
                   <div className="flex items-center gap-1.5 mt-0.5 text-emerald-700 font-semibold text-sm">
                     <ShieldCheck className="h-4 w-4 text-emerald-600" />
-                    <span>ISO 9001:2015 Tier-1</span>
+                    <span>ISO 9001:2015 Tier-1 Compliant</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Notes & Special Instructions */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div className="rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-xs">
+              <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="rounded-lg bg-slate-100 p-2 text-slate-700">
+                  <div className="rounded-xl bg-zinc-100 p-2 text-zinc-700">
                     <FileText className="h-5 w-5" />
                   </div>
                   <div>
-                    <h2 className="text-base font-semibold text-slate-900">
-                      Work Instructions & Floor Notes
+                    <h2 className="text-base font-bold text-zinc-900">
+                      Notes & Issues
                     </h2>
-                    <p className="text-xs text-slate-500">
-                      Operator notes, special instructions, and dispatch conditions
+                    <p className="text-xs text-zinc-500">
+                      Operator notes and special instructions
                     </p>
                   </div>
                 </div>
@@ -407,7 +408,7 @@ export function JobDetailPage() {
                   <button
                     type="button"
                     onClick={() => setIsEditingNotes(true)}
-                    className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
+                    className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors cursor-pointer"
                   >
                     Edit Notes
                   </button>
@@ -418,15 +419,15 @@ export function JobDetailPage() {
                 {isEditingNotes ? (
                   <div className="space-y-3">
                     <label htmlFor={notesTextareaId} className="sr-only">
-                      Edit Work Instructions & Notes
+                      Edit Notes & Issues
                     </label>
                     <textarea
                       id={notesTextareaId}
                       value={notesText}
                       onChange={(e) => setNotesText(e.target.value)}
                       rows={4}
-                      placeholder="Add instructions or shift notes for this job..."
-                      className="w-full rounded-xl border border-slate-200 p-3.5 text-sm text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      placeholder="Add instructions or notes for this job..."
+                      className="w-full rounded-xl border border-zinc-200 p-3.5 text-sm text-zinc-800 placeholder-zinc-400 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                     />
                     <div className="flex items-center justify-end gap-2">
                       <button
@@ -435,14 +436,14 @@ export function JobDetailPage() {
                           setNotesText(job.notes || "");
                           setIsEditingNotes(false);
                         }}
-                        className="rounded-lg px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+                        className="rounded-xl px-3 py-1.5 text-xs font-semibold text-zinc-600 hover:bg-zinc-100 transition-colors cursor-pointer"
                       >
                         Cancel
                       </button>
                       <button
                         type="button"
                         onClick={handleNotesSave}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-1.5 text-xs font-medium text-white hover:bg-blue-700 transition-colors shadow-xs cursor-pointer"
+                        className="inline-flex items-center gap-1.5 rounded-xl bg-orange-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-orange-500 transition-colors shadow-xs cursor-pointer"
                       >
                         <Save className="h-3.5 w-3.5" />
                         <span>Save Notes</span>
@@ -450,17 +451,17 @@ export function JobDetailPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/80 p-4">
-                    <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                  <div className="rounded-xl border border-zinc-100 bg-zinc-50/80 p-4">
+                    <p className="text-sm text-zinc-700 leading-relaxed whitespace-pre-wrap">
                       {job.notes ? job.notes : "No special instructions or issues logged for this job."}
                     </p>
                   </div>
                 )}
 
                 {notesSaveSuccess && (
-                  <div className="mt-3 flex items-center gap-2 text-xs font-medium text-emerald-600 bg-emerald-50 border border-emerald-200 rounded-lg p-2.5 animate-fadeIn">
+                  <div className="mt-3 flex items-center gap-2 text-xs font-medium text-emerald-600 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5">
                     <CheckCircle2 className="h-4 w-4" />
-                    <span>Notes updated successfully and saved to local storage!</span>
+                    <span>Notes saved successfully.</span>
                   </div>
                 )}
               </div>
@@ -470,16 +471,16 @@ export function JobDetailPage() {
           {/* Right Column: Status Control & Actions */}
           <div className="space-y-6">
             {/* Status Change Card */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-              <div className="border-b border-slate-100 pb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-blue-600">
-                  Control Panel
+            <div className="rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-xs">
+              <div className="border-b border-zinc-100 pb-4">
+                <span className="text-xs font-bold uppercase tracking-wider text-orange-600">
+                  Status Control
                 </span>
-                <h2 className="text-base font-semibold text-slate-900 mt-0.5">
-                  Update Production Status
+                <h2 className="text-base font-bold text-zinc-900 mt-0.5">
+                  Update Status
                 </h2>
-                <p className="text-xs text-slate-500">
-                  Select new status to reflect real-time floor progress
+                <p className="text-xs text-zinc-500">
+                  Select new status to update workflow
                 </p>
               </div>
 
@@ -487,7 +488,7 @@ export function JobDetailPage() {
                 <div>
                   <label
                     htmlFor="job-status-dropdown"
-                    className="block text-xs font-medium text-slate-700 mb-1.5"
+                    className="block text-xs font-semibold text-zinc-700 mb-1.5"
                   >
                     Select Status
                   </label>
@@ -496,7 +497,7 @@ export function JobDetailPage() {
                       id="job-status-dropdown"
                       value={selectedStatus}
                       onChange={(e) => setSelectedStatus(e.target.value)}
-                      className="w-full appearance-none rounded-xl border border-slate-200 bg-white py-2.5 pl-3.5 pr-10 text-sm font-medium text-slate-800 shadow-xs transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+                      className="w-full appearance-none rounded-xl border border-zinc-200 bg-white py-2.5 pl-3.5 pr-10 text-sm font-medium text-zinc-800 shadow-xs transition-colors focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 cursor-pointer"
                     >
                       {STATUS_OPTIONS.map((statusOption) => (
                         <option key={statusOption} value={statusOption}>
@@ -504,22 +505,22 @@ export function JobDetailPage() {
                         </option>
                       ))}
                     </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400">
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-zinc-400">
                       <ChevronDown className="h-4 w-4" />
                     </div>
                   </div>
                 </div>
 
                 {/* Status indicator row */}
-                <div className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 text-xs">
+                <div className="rounded-xl border border-zinc-100 bg-zinc-50/80 p-3 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-500">Current Status:</span>
+                    <span className="text-zinc-500 font-medium">Current Status:</span>
                     <StatusBadge status={job.status} />
                   </div>
                   {isStatusDirty && (
-                    <div className="mt-2 pt-2 border-t border-slate-200/60 flex items-center justify-between">
-                      <span className="text-blue-700 font-medium">Selected:</span>
-                      <span className="font-semibold text-slate-900">{selectedStatus}</span>
+                    <div className="mt-2 pt-2 border-t border-zinc-200/60 flex items-center justify-between">
+                      <span className="text-orange-700 font-semibold">Selected:</span>
+                      <span className="font-bold text-zinc-900">{selectedStatus}</span>
                     </div>
                   )}
                 </div>
@@ -530,22 +531,20 @@ export function JobDetailPage() {
                   id="save-status-btn"
                   onClick={handleStatusSave}
                   disabled={!isStatusDirty}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 cursor-pointer transition-all active:scale-[0.98]"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-600 px-4 py-2.5 text-sm font-bold text-white shadow-xs hover:bg-orange-500 disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-400 cursor-pointer transition-all active:scale-[0.98]"
                 >
                   <Check className="h-4 w-4" />
                   <span>{isStatusDirty ? "Save Status" : "Current Status"}</span>
                 </button>
 
                 {statusSaveSuccess && (
-                  <div className="flex items-center gap-2 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg p-2.5">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                    <span>Job status updated to <strong>{job.status}</strong>!</span>
+                    <span>Status updated to <strong>{job.status}</strong></span>
                   </div>
                 )}
               </div>
             </div>
-
-
           </div>
         </div>
       </div>

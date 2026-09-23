@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useMemo } from "react";
 import mockData from "@/data/mockJobs";
 
-const STORAGE_KEY = "pcd_production_jobs_data";
+const STORAGE_KEY = "pcd_production_jobs_data_v2";
 
 const JobsContext = createContext(null);
 
@@ -37,12 +37,27 @@ export function JobsProvider({ children }) {
     setSortBy("dueDate");
   };
 
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type = "success") => {
+    setToast({ message, type, id: Date.now() });
+    setTimeout(() => {
+      setToast(null);
+    }, 3200);
+  };
+
+  const addJob = (newJob) => {
+    setJobs((prevJobs) => [newJob, ...prevJobs]);
+    showToast(`Job ${newJob.id} created successfully`, "success");
+  };
+
   const updateJobStatus = (jobId, newStatus) => {
     setJobs((prevJobs) =>
       prevJobs.map((job) =>
         job.id === jobId ? { ...job, status: newStatus } : job,
       ),
     );
+    showToast(`Job ${jobId} updated to ${newStatus}`, "info");
   };
 
   const updateJobNotes = (jobId, newNotes) => {
@@ -51,6 +66,7 @@ export function JobsProvider({ children }) {
         job.id === jobId ? { ...job, notes: newNotes } : job,
       ),
     );
+    showToast(`Notes saved for ${jobId}`, "info");
   };
 
   const resetJobsToDefault = () => {
@@ -60,6 +76,7 @@ export function JobsProvider({ children }) {
     } catch {
       // ! Ignore
     }
+    showToast("Data reset to defaults", "info");
   };
 
   const getJobById = (id) => {
@@ -85,8 +102,15 @@ export function JobsProvider({ children }) {
 
     result = [...result].sort((a, b) => {
       if (sortBy === "quantity") {
-        return a.quantity - b.quantity;
+        return b.quantity - a.quantity; // High to Low
       }
+      if (sortBy === "quantityAsc") {
+        return a.quantity - b.quantity; // Low to High
+      }
+      if (sortBy === "dueDateDesc") {
+        return b.dueDate.localeCompare(a.dueDate); // Latest first
+      }
+      // default: dueDate earliest first
       return a.dueDate.localeCompare(b.dueDate);
     });
 
@@ -106,7 +130,11 @@ export function JobsProvider({ children }) {
     updateJobStatus,
     updateJobNotes,
     resetJobsToDefault,
+    addJob,
     getJobById,
+    toast,
+    setToast,
+    showToast,
   };
 
   return <JobsContext.Provider value={value}>{children}</JobsContext.Provider>;
